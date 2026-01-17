@@ -19,12 +19,17 @@ extensions = [
     "cogs.admin"
 ]
 
-for ext in extensions:
-    try:
-        bot.load_extension(ext)
-        print("Loaded", ext)
-    except Exception as e:
-        print("Failed to load", ext, e)
+async def load_extensions():
+    for ext in extensions:
+        try:
+            await bot.load_extension(ext)
+            print("Loaded", ext)
+        except Exception as e:
+            print("Failed to load", ext, e)
+
+@bot.event
+async def setup_hook():
+    await load_extensions()
 
 keep_alive()
 bot.run(os.environ["DISCORD_TOKEN"])
